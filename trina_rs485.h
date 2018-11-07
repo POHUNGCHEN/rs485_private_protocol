@@ -24,9 +24,9 @@ typedef struct TR_Msg_{
 
 int mx_rs485_new(char _cl_port);
 
-int mx_rs485_connect(void);
+int mx_rs485_connect(TR_Msg *tr);
 
-int mx_rs485_reconnect();
+int mx_rs485_reconnect(TR_Msg *tr);
 
 int mx_rs485_close();
 
