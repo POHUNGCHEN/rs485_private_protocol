@@ -1,0 +1,19 @@
+{
+    "device" : [
+        {"name" : "name"                ,"attribute" : "default-required" , "type" : "string" },
+        {"name" : "interface"           ,"attribute" : "default-required" , "type" : "string" },
+        {"name" : "templateName"        ,"attribute" : "default-required" , "type" : "string" }
+    ],
+    "tag" : [
+        {"name" : "id"                  , "attribute" : "default-required" , "type" : "string" },
+        {"name" : "op"                  , "attribute" : "default-required" , "type" : "string" },
+        {"name" : "type"                , "attribute" : "default-required" , "type" : "string" },
+        {"name" : "requestTimeoutMs"    , "attribute" : "default-required" , "type" : "int"    },
+        {"name" : "pollingPeriodMs"     , "attribute" : "default-required" , "type" : "int"    },
+        {"name" : "address"             , "attribute" : "protocol-required", "type" : "int"    },
+        {"name" : "cid1"                , "attribute" : "protocol-required", "type" : "int"    },
+        {"name" : "cid2"                , "attribute" : "protocol-required", "type" : "int"    },
+        {"name" : "length"              , "attribute" : "protocol-required", "type" : "float"    },
+        {"name" : "info"                , "attribute" : "protocol-required", "type" : "float"    }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "protocolName": "trina-energy1", 
+    "supportInterface": [
+        "eth", 
+        "ttyS",
+        "ttyM"
+    ], 
+    "serviceName": "trina-energy1master", 
+    "configPath": "/etc/trina-energy1master/", 
+    "version": "0.0"
+}
