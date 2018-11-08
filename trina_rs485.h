@@ -1,5 +1,5 @@
-
 typedef struct TR_Msg_{
+    char _cl_port;
     // **** Trina Solor protocol data start
     int _cl_soi_byte;
     int _cl_pversion_byte;
@@ -21,8 +21,7 @@ typedef struct TR_Msg_{
     // **** Trina Solor protocol data end
 }TR_Msg;
 
-
-int mx_rs485_new(char _cl_port);
+int mx_rs485_new(char * _cl_port);
 
 int mx_rs485_connect(TR_Msg *tr);
 

@@ -219,12 +219,12 @@ static int diff_ms(const struct timespec *t1, const struct timespec *t2)
 	return (diff.tv_sec * 1000 + diff.tv_nsec / 1000000);
 }
 
-int mx_rs485_new(char _cl_port)
+int mx_rs485_new(char * _cl_port)
 {
 	struct termios newtio;
 	struct serial_rs485 rs485;
 	int baud = B9600;
-	int enable = 1;
+	int rs485_enable = 1;
 
 	_fd = open(_cl_port, O_RDWR | O_NONBLOCK);
 
@@ -232,7 +232,8 @@ int mx_rs485_new(char _cl_port)
 	{
 		printf("Error opening serial port %s \n", _cl_port);
 		//free(_cl_port);
-		exit(1);
+		return -1;
+		//exit(1);
 	}
 
 	bzero(&newtio, sizeof(newtio)); /* clear struct for new port settings */
@@ -282,7 +283,7 @@ int mx_rs485_new(char _cl_port)
 	{
 		printf("Error: TIOCGRS485 ioctl not supported.\n");
 	}
-	if (enable)
+	if (rs485_enable)
 	{
 		//Enable rs485 mode
 		printf("Port %s ==> type: RS485\n", _cl_port);
@@ -293,6 +294,8 @@ int mx_rs485_new(char _cl_port)
 			perror("Error setting RS-485 mode");
 		}
 	}
+
+	return 0;
 }
 
 int mx_rs485_connect(TR_Msg *tr)
@@ -382,13 +385,19 @@ int mx_rs485_connect(TR_Msg *tr)
 	return (result > 125) ? 125 : (int)result;
 }
 
+//int mx_rs485_reconnect(char * _cl_port)
 int mx_rs485_reconnect(TR_Msg *tr)
 {
 	close(_fd);
 	tcflush(_fd, TCIOFLUSH);
 //	free(_cl_port);
-	mx_rs485_new(_cl_port);
-	mx_rs485_connect(tr);
+	/*
+	if(mx_rs485_new(tr->_cl_port)<0)
+	{
+		return -1;
+	}
+	*/
+	//mx_rs485_connect(tr);
 	return 0;
 }
 

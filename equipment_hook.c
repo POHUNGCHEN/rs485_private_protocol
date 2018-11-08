@@ -2,7 +2,7 @@
 #include "mxfb_rule.h"
 #include "trina_rs485.h"
 
-char *_cl_port;
+//char *_cl_port;
 
 int timestamp_to_date_str(long long poll_last_ts, char *last_tstr, int last_tstr_len)
 {    
@@ -42,6 +42,16 @@ int equ_restart_hook (void *this)
 {
     Equipment *equ = (Equipment *)this;
     // todo :
+    /*
+    MXLOG_INFO("RS485 serial port reconnecting...\n");
+    if(mx_rs485_reconnect())
+    {
+        MXLOG_EROR("RS485 serial port connection fail.\n");
+        return -1;
+    }
+    MXLOG_INFO("RS485 serial port reconnect success.");
+    */
+    // todo :
     return 0;
 }
 
@@ -56,6 +66,8 @@ int equ_stop_hook (void *this)
 {
     Equipment *equ = (Equipment *)this;
     // todo :
+    //mx_rs485_close();
+    // todo :
     return 0;
 }
 
@@ -63,9 +75,14 @@ int equ_start_hook (void *this)
 {
     Equipment *equ = (Equipment *)this;
     // todo :
-    //char _cl_port;
-    mx_rs485_new(equ->interface);
-
+    // ******** open RS485 port
+    
+    if(mx_rs485_new(_cl_port) < 0)
+    {
+        MXLOG_EROR("RS485 port open fail.\n");
+        return -1;
+    }
+    
     // todo :
     return 0;
 }
