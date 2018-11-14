@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table,
+        th,
+        td {
+            padding: 5px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        body {
+            font-family: Arial;
+        }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>天合光能通讯协议(电总)</p>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openprotocol(event, 'protocol1')" id="defaultOpen">混合能源监控协议</button>
+        <button class="tablinks" onclick="openprotocol(event, 'protocol2')">电池共用管理器通信协议</button>
+    </div>
+
+    <div id="protocol1" class="tabcontent">
+        <table>
+            <tr>
+                <th>Serial Port</th>
+                <th>Baud Rate</th>
+                <th>Data Bits</th>
+            </tr>
+            <tr>
+                <td>/dev/ttyS0</td>
+                <td>9600</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <th>Parity</th>
+                <th>Stop Bits</th>
+                <th>Response Timeout</th>
+            </tr>
+            <tr>
+                <td>None</td>
+                <td>1</td>
+                <td>500 (ms)</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+            <tr>
+                <th>Device ADR</th>
+                <th>控制标识码 CID1</th>
+                <th>控制标识码 CID2</th>
+            </tr>
+            <th>
+                <select class="dropdown" style="width: 150px; height: 26px">
+                    <option selected disabled>Device Address</option>
+                    <option value="melbourne">Device 1</option>
+                    <option value="cromwell">Device 2</option>
+                    <option value="queenstown">Device 3</option>
+                </select>
+            </th>
+            <th>
+                <select class="dropdown" style="width: 150px; height: 26px" onchange="ChangeP1List(value)">
+                    <option selected disabled>设备类型</option>
+                    <option value="1">交流配电</option>
+                    <option value="2">整流配电</option>
+                    <option value="3">直流配电</option>
+                    <option value="4">太阳能配电</option>
+                    <option value="5">风能配电</option>
+                    <option value="6">扩展命令</option>
+                    <option value="7">公有命令</option>
+                </select>
+            </th>
+            <th>
+                <div id="static-protocol" style="display:block; width: 150px; height: 26px">
+                    <select>
+                        <option>命令信息</option>
+                    </select>
+                </div>
+
+                <div id="p1-1" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>交流配电</option>
+                        <optgroup label="命令信息">
+                            <option>获取系统模拟量量化数据</option>
+                            <option>获取告警状态</option>
+                            <option>设置参数</option>
+                    </select>
+                </div>
+
+                <div id="p1-2" style="display:none">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>整流配电</option>
+                        <optgroup label="命令信息">
+                            <option>获取系统模拟量量化数据</option>
+                            <option>获取系统开关输入状态</option>
+                            <option>获取告警状态</option>
+                            <option>遥控</option>
+                            <option>遥调</option>
+                            <option>获取遥调</option>
+                    </select>
+                </div>
+
+                <div id="p1-3" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>直流配电</option>
+                        <optgroup label="命令信息">
+                            <option>获取系统模拟量量化数据</option>
+                            <option>获取告警状态</option>
+                            <option>设置参数</option>
+                    </select>
+                </div>
+
+                <div id="p1-4" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>太阳能配电</option>
+                        <optgroup label="命令信息">
+                            <option>获取系统模拟量量化数据</option>
+                            <option>获取告警状态</option>
+                            <option>设置参数</option>
+                            <option>获取参数</option>
+                    </select>
+                </div>
+
+                <div id="p1-5" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>风能配电</option>
+                        <optgroup label="命令信息">
+                            <option>获取系统模拟量量化数据</option>
+                            <option>获取告警状态 </option>
+                    </select>
+                </div>
+
+                <div id="p1-6" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>扩展命令</option>
+                        <optgroup label="命令信息">
+                            <option>后台告警音控制</option>
+                            <option>读取节能参数</option>
+                            <option>设置节能参数</option>
+                            <option>DI 告警配置</option>
+                            <option>查询历史告警</option>
+                            <option>清除历史告警记录</option>
+                            <option>清除电表记录</option>
+                    </select>
+                </div>
+
+                <div id="p1-7" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>公有命令</option>
+                        <optgroup label="命令信息">
+                            <option>获取电总通讯协议版本号</option>
+                            <option>获取设备地址</option>
+                            <option>获取厂家信息</option>
+                            <option>获取时间信息</option>
+                            <option>设置日期时间</option>
+                    </select>
+                </div>
+            </th>
+            <th>
+                <button type="button" onclick="alert('命令信息送出!')">送出信息!</button>
+            </th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="protocol2" class="tabcontent">
+        <table>
+            <tr>
+                <th>Serial Port</th>
+                <th>Baud Rate</th>
+                <th>Data Bits</th>
+            </tr>
+            <tr>
+                <td>/dev/ttyS1</td>
+                <td>9600</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <th>Parity</th>
+                <th>Stop Bits</th>
+                <th>Response Timeout</th>
+            </tr>
+            <tr>
+                <td>None</td>
+                <td>1</td>
+                <td>500 (ms)</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th>Device ADR</th>
+                <th>控制标识码 CID1</th>
+                <th>控制标识码 CID2</th>
+            </tr>
+            <th>
+                <select class="dropdown" style="width: 150px; height: 26px">
+                    <option selected disabled>Device Address</option>
+                    <option value="melbourne">Device 1</option>
+                    <option value="cromwell">Device 2</option>
+                    <option value="queenstown">Device 3</option>
+                </select>
+            </th>
+            <th>
+                <select class="dropdown" style="width: 150px; height: 26px" onchange="ChangeP2List(value)">
+                    <option selected disabled>设备类型</option>
+                    <option value="11">运行信息</option>
+                    <option value="12">扩展信息</option>
+                </select>
+            </th>
+            <th>
+                <div id="staticprotocol2" style="display:block; width: 150px; height: 26px">
+                    <select>
+                        <option>命令信息</option>
+                    </select>
+                </div>
+
+                <div id="p2-1" style="display:none;">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>运行信息</option>
+                        <optgroup label="命令信息">
+                            <option>获取电池信息</option>
+                            <option>获取告警信息</option>
+                            <option>获取参数信息</option>
+                            <option>设置参数值</option>
+                    </select>
+                </div>
+                <div id="p2-2" style="display:none">
+                    <select class="dropdown" style="width: 150px; height: 26px">
+                        <option selected disabled>扩展信息</option>
+                        <optgroup label="命令信息">
+                            <option>协议版本信息</option>
+                            <option>厂家信息</option>
+                            <option>获取时间信息</option>
+                            <option>设置时间信息</option>
+                            <option>获取历史告警记录</option>
+                            <option>清除历史告警记录</option>
+                    </select>
+                </div>
+            </th>
+            <th>
+                <button type="button" onclick="alert('命令信息送出!')">送出信息!</button>
+            </th>
+        </table>
+    </div>
+
+    <script>
+        function openprotocol(evt, ProtocolName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(ProtocolName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+        function ChangeP1List(value) {
+            if (value == 1) {
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-1").style.display = "block";
+            }
+            if (value == 2) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-2").style.display = "block";
+            }
+            if (value == 3) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-3").style.display = "block";
+            }
+            if (value == 4) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-4").style.display = "block";
+            }
+            if (value == 5) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-5").style.display = "block";
+            }
+            if (value == 6) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-7").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-6").style.display = "block";
+            }
+            if (value == 7) {
+                document.getElementById("p1-1").style.display = "none";
+                document.getElementById("p1-2").style.display = "none";
+                document.getElementById("p1-3").style.display = "none";
+                document.getElementById("p1-4").style.display = "none";
+                document.getElementById("p1-5").style.display = "none";
+                document.getElementById("p1-6").style.display = "none";
+                document.getElementById("static-protocol").style.display = "none";
+                document.getElementById("p1-7").style.display = "block";
+            }
+        }
+
+        function ChangeP2List(value) {
+            if (value == 11) {
+                document.getElementById("p2-2").style.display = "none";
+                document.getElementById("staticprotocol2").style.display = "none";
+                document.getElementById("p2-1").style.display = "block";
+            }
+            if (value == 12) {
+                document.getElementById("p2-1").style.display = "none";
+                document.getElementById("staticprotocol2").style.display = "none";
+                document.getElementById("p2-2").style.display = "block";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
